@@ -15,7 +15,7 @@ jobs:
         with:
           token: ${{ github.token }}	
           owner: mthcht
-          repo: KapeFiles
+          repo: Splunk4DFIR
           base: master
           head: master
           merge_method: merge
