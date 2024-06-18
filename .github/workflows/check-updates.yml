@@ -16,6 +16,6 @@ jobs:
           token: ${{ github.token }}	
           owner: mthcht
           repo: Splunk4DFIR
-          base: master
-          head: master
+          base: main
+          head: main
           merge_method: merge
