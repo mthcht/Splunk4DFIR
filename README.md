@@ -15,13 +15,14 @@ This is a simple quality of life improvement project built upon the amazing work
 - https://github.com/Yamato-Security/hayabusa
 - https://github.com/mthcht/ThreatHunting-Keywords
 - https://github.com/magicsword-io/LOLDrivers
+- https://github.com/ufrisk/MemProcFS
 
 Splunk4DFIR is made of 3 main components: 
   - some basic data ingestion configuration modules and scripts
   - a collection of ready to use dashboards to get started visualizing the data
-  - savedsearches translated from [sigma rules](https://github.com/SigmaHQ/sigma) to be run against the data for triage
+  - savedsearches translated from [sigma rules](https://github.com/SigmaHQ/sigma) to run against the data for triage
 
-The app comes with pre-compiled sigma rules in its savedsearches.conf but the philosophy of the project is to allow you to easily import any ruleset you want with the [pysigma pipelines](sigma/pipelines) provided, see [Sigma Rules Support](#sigma-rules-support)
+The app comes with pre-compiled sigma rules in its savedsearches.conf file but the philosophy of the project is to allow you to easily import any ruleset you want with the [pysigma pipelines](sigma/pipelines) provided, see [Sigma Rules Support](#sigma-rules-support)
 
 ## Motivation
 
@@ -56,6 +57,7 @@ If you dont see data being ingested, check the permissions of your artifacts fil
 - `artifacts/zeek/`: drop there your json zeek files
 - `artifacts/suricata/`: drop there your eve.json suricata file
 - `artifacts/supertimelines/`: drop there your plaso l2tcsv outputs
+- `artifacts/memprocfs/`: drop there your MemProcFS forensic json output files
 
 additionnaly some [macros](Splunk4DFIR/default/macros.conf) are configurable to point to specific tools output sourcetypes such as:
 
@@ -101,10 +103,9 @@ sudo docker build -t sigma-cli sigma/
 sudo docker run -it --name sigma-cli --rm -v ./Splunk4DFIR/default:/mnt/output -v ./sigma/rules/:/mnt/rules -v ./sigma/pipelines:/mnt/pipelines sigma-cli:latest pipenv run sigma convert -t splunk -p /mnt/pipelines/evtx2splunk.yml /mnt/rules/sigma/rules/windows/ -s  -o /mnt/output/savedsearches.conf
 ```
 
-When dealing with evtx files, the evtx to json import + sigma rule to splunk scheduled alert conversion approach has the benefit of providing you with the full events. However it doesnt scale very well. It is better suited for investigating just a handful of endpoint logs.
+When dealing with evtx files, the evtx to json import + sigma rule to splunk scheduled alert conversion approach has the benefit of providing you with the all the events. However it doesnt scale very well. It is better suited for investigating just a handful of endpoint logs.
 
 If you need to triage evtx accross a very large fleet of endpoint I rather recommend to start processing with [hayabusa](https://github.com/Yamato-Security/hayabusa) and import the hayabusa outputs into splunk. The Splunk4DFIR app has a dashboard to visualise hayabusa outputs.
-
 
 ## Pcap to Zeek
 
